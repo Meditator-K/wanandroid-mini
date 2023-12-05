@@ -1,0 +1,64 @@
+{
+	"pages": [{
+		"path": "pages/index/index",
+		"style": {
+			"navigationBarTitleText": "首页"
+			// "navigationBarBackgroundColor": "#ffffff"
+		}
+	},{
+		"path": "pages/system/index",
+		"style": {
+			"navigationBarTitleText": "体系"
+		}
+	},{
+		"path": "pages/navigation/index",
+		"style": {
+			"navigationBarTitleText": "导航"
+		}
+	},{
+		"path": "pages/project/index",
+		"style": {
+			"navigationBarTitleText": "项目"
+		}
+	}],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#FFFFFF"
+		// "app-plus": {
+		// 	"background": "#efeff4"
+		// }
+	},
+	"tabBar": {
+		"color": "#BBBBBB",
+		"selectedColor": "#212121",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/images/tabbar/home.png",
+				"selectedIconPath": "static/images/tabbar/home_select.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/system/index",
+				"iconPath": "static/images/tabbar/system.png",
+				"selectedIconPath": "static/images/tabbar/system_select.png",
+				"text": "体系"
+			},
+			{
+				"pagePath": "pages/navigation/index",
+				"iconPath": "static/images/tabbar/navigation.png",
+				"selectedIconPath": "static/images/tabbar/navigation_select.png",
+				"text": "导航"
+			},
+			{
+				"pagePath": "pages/project/index",
+				"iconPath": "static/images/tabbar/project.png",
+				"selectedIconPath": "static/images/tabbar/project_select.png",
+				"text": "项目"
+			}
+		]
+	}
+}
