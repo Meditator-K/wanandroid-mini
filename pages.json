@@ -17,7 +17,7 @@
 	},{
 		"path": "pages/project/index",
 		"style": {
-			"navigationBarTitleText": "项目"
+			"navigationBarTitleText": "我的"
 		}
 	}],
 	"globalStyle": {

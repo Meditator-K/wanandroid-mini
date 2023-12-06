@@ -27,12 +27,16 @@ const _request = (url, resolve, reject, data = {}, method = 'GET') => {
 			'Cookie': uni.getStorageSync('cookie')
 		},
 		success: (res) => {
-			console.log('响应数据：' + JSON.stringify(res.data))
+			console.log('响应数据：', res.data)
 			uni.hideLoading()
-			resolve(res.data)
+			if (res.data.errorCode === 0) {
+				resolve(res.data)
+			} else {
+				reject(res.data.errorMsg)
+			}
 		},
 		fail: (err) => {
-			console.log('异常数据：' + JSON.stringify(err))
+			console.log('异常数据：', err)
 			uni.hideLoading()
 			reject(err)
 		}
