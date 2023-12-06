@@ -1,73 +1,45 @@
-import {
-	config
-} from '../config.js'
+import config from '../config.js'
 
-class HTTP {
-	constructor() {
-		this.baseUrl = config.base_url
-	}
 
-	get({
-		url,
-		data = {},
-		method = 'GET'
-	}) {
-		return new Promise((resolve, reject) => {
-			_request(url, resolve, reject, data, method)
-		})
-	}
+const get = (url = '', data = {}) => {
+	return new Promise((resolve, reject) => {
+		_request(url, resolve, reject, data, 'GET')
+	})
+}
 
-	post({
-		url,
-		data = {},
-		method = 'POST'
-	}) {
-		return new Promise((resolve, reject) => {
-			_request(url, resolve, reject, data, method)
-		})
-	}
+const post = (url = '', data = {}) => {
+	return new Promise((resolve, reject) => {
+		_request(url, resolve, reject, data, 'POST')
+	})
+}
 
-	_request(url, resolve, reject, data = {}, method = 'GET') {
-		uni.request({
-			url: `${this.baseUrl}${url}`,
-			method: method,
-			data: data,
-			header: {
-				'content-type': 'application/json',
-				'Cookie': uni.getStorageSync('cookie')
-			},
-			success: (res) => {
-				if (res.data) {
-					const _success = res.data.success;
-					if (_success) {
-						resolve(res.data)
-					} else {
-						reject(res.data.message)
-						const _error_code = res.data.code;
-						const _message = res.data.message;
-						this._show_error(_error_code, _message)
-					}
-
-				} else {
-					resolve(res.data)
-				}
-			},
-			fail: (err) => {
-				reject()
-				this._show_error(-1)
-			}
-		})
-	}
-
-	_show_error(error_code, _message) {
-		uni.showToast({
-			title: `${_message}`,
-			icon: 'none',
-			duration: 2000
-		})
-	}
+const _request = (url, resolve, reject, data = {}, method = 'GET') => {
+	uni.showLoading({
+		title: '加载中...',
+		mask: true
+	})
+	uni.request({
+		url: `${config.baseUrl}${url}`,
+		method: method,
+		data: data,
+		header: {
+			'content-type': 'application/json',
+			'Cookie': uni.getStorageSync('cookie')
+		},
+		success: (res) => {
+			console.log('响应数据：' + JSON.stringify(res.data))
+			uni.hideLoading()
+			resolve(res.data)
+		},
+		fail: (err) => {
+			console.log('异常数据：' + JSON.stringify(err))
+			uni.hideLoading()
+			reject(err)
+		}
+	})
 }
 
 export {
-	HTTP
+	get,
+	post
 }
