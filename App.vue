@@ -29,4 +29,25 @@
 		color: #333;
 		padding: 10px;
 	}
+	
+	/* #ifdef MP-WEIXIN */
+	//控制轮播图整体在左侧
+	wx-swiper .wx-swiper-dots {
+		left: 60px;
+	}
+	//默认样式
+	wx-swiper .wx-swiper-dot {
+		background: rgba(0, 0,0, .5);
+		height: 5px;
+		width: 5px;
+	}
+	//轮播图当前index样式
+	wx-swiper .wx-swiper-dot-active {
+		width: 20px;
+		height: 3px;
+		border-radius: 10px;
+		background-color: #FFF;
+	}
+	/* #endif */
+	
 </style>
