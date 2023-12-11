@@ -12,13 +12,15 @@
 		<uni-list>
 			<uni-list-item v-for="(item, index) in articles" :key="index" clickable="true" @click="clickArticle(item)">
 				<template v-slot:body>
-					<view class="custom-body">
-						<text>{{item.title}}</text>
-						<uni-icons type="star-filled" color="#999" size="18"></uni-icons>
-					</view>
-					<view class="custom-body">
-						<text class="footer-text">{{item.shareUser}}</text>
-						<text class="footer-text">{{item.niceShareDate}}</text>
+					<view style="width: 100%;">
+						<view class="custom-body">
+							<text>{{item.title}}</text>
+							<uni-icons type="star-filled" color="#999" size="18"></uni-icons>
+						</view>
+						<view class="custom-body">
+							<text class="footer-text">{{item.shareUser}}</text>
+							<text class="footer-text">{{item.niceShareDate}}</text>
+						</view>
 					</view>
 				</template>
 			</uni-list-item>
@@ -70,9 +72,6 @@
 						duration: 2000
 					})
 				})
-			},
-			generateNoteText(item) {
-				return `@${item.shareUser}`
 			},
 			clickArticle(item) {
 				console.log('article:', item)
