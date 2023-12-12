@@ -24,6 +24,7 @@
 					</view>
 				</template>
 			</uni-list-item>
+			<uni-load-more :status="loadStatus"></uni-load-more>
 		</uni-list>
 
 
@@ -38,12 +39,21 @@
 		data() {
 			return {
 				banners: [],
-				articles: []
+				articles: [],
+				pageNo: 0,
+				loadStatus: 'more'
 			}
 		},
 		created() {
-			this.getHomeData(),
-				this.getArticleData()
+			this.getHomeData()
+			this.getArticleData()
+		},
+		onReachBottom() {
+			this.loadMore()
+		},
+		onPullDownRefresh() {
+			this.pageNo = 0
+			this.getArticleData()
 		},
 		methods: {
 			getHomeData() {
@@ -64,9 +74,23 @@
 				})
 			},
 			getArticleData() {
-				get('/article/list/0/json').then(res => {
-					this.articles = res.data.datas
+				get(`/article/list/${this.pageNo}/json`).then(res => {
+					uni.stopPullDownRefresh() 
+					const newItems = res.data.datas
+					if (newItems.length === 0) {
+						this.loadStatus = 'no-more'
+					} else {
+						if (this.pageNo === 0) {
+							this.articles = newItems
+						} else {
+							this.articles.push(...newItems)
+						}
+						this.loadStatus = 'more'
+					}
 				}).catch(error => {
+					if (this.pageNo !== 0) {
+						this.pageNo--
+					}
 					uni.showToast({
 						title: error,
 						duration: 2000
@@ -80,6 +104,11 @@
 						item.link)
 				})
 			},
+			loadMore() {
+				this.pageNo++
+				this.loadStatus = 'loading'
+				this.getArticleData()
+			}
 		}
 	}
 </script>
@@ -114,7 +143,7 @@
 		flex-direction: row;
 		justify-content: space-between;
 	}
-	
+
 	.footer-text {
 		font-size: 12px;
 		color: #999;
