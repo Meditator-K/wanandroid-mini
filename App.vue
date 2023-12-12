@@ -20,7 +20,7 @@
 	@import '@/static/customicons.css';
 	// 设置整个项目的背景色
 	page {
-		background-color: #f5f5f5;
+		background-color: #fff;
 	}
 
 	/* #endif */
@@ -32,21 +32,24 @@
 	
 	/* #ifdef MP-WEIXIN */
 	//控制轮播图整体在左侧
+	// wx-swiper .wx-swiper-dots {
+	// 	left: 60px;
+	// }
 	wx-swiper .wx-swiper-dots {
-		left: 60px;
+		bottom: 0px;
 	}
 	//默认样式
 	wx-swiper .wx-swiper-dot {
-		background: rgba(0, 0,0, .5);
+		background: rgba(0, 0,0, .3);
 		height: 5px;
 		width: 5px;
 	}
 	//轮播图当前index样式
 	wx-swiper .wx-swiper-dot-active {
 		width: 20px;
-		height: 3px;
+		height: 5px;
 		border-radius: 10px;
-		background-color: #FFF;
+		background-color: #999;
 	}
 	/* #endif */
 	

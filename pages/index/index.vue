@@ -1,5 +1,8 @@
 <template>
 	<view class="container">
+		<view class="search" @click="onSearch">
+			<text class="footer-text">请输入搜索内容</text>
+		</view>
 
 		<swiper class="swiper-box" :interval="2000" :autoplay="true" :indicator-dots="true">
 			<swiper-item v-for="(item, index) in banners" :key="index">
@@ -75,7 +78,7 @@
 			},
 			getArticleData() {
 				get(`/article/list/${this.pageNo}/json`).then(res => {
-					uni.stopPullDownRefresh() 
+					uni.stopPullDownRefresh()
 					const newItems = res.data.datas
 					if (newItems.length === 0) {
 						this.loadStatus = 'no-more'
@@ -108,6 +111,11 @@
 				this.pageNo++
 				this.loadStatus = 'loading'
 				this.getArticleData()
+			},
+			onSearch() {
+				uni.navigateTo({
+					url: '/pages/search'
+				})
 			}
 		}
 	}
@@ -115,17 +123,31 @@
 
 <style lang="scss">
 	.container {
+		padding: 10px;
 		font-size: 14px;
 		line-height: 24px;
+		// background-color: white;
+	}
+
+	.search {
+		background-color: #E7E7E7;
+		border-radius: 10px;
+		padding-left: 10px;
+		padding-right: 10px;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		margin-bottom: 10px;
+
 	}
 
 	.swiper-box {
 		width: 100%;
 		height: 180px;
-
+		margin-bottom: 10px;
 		image {
 			width: 100%;
-			height: 100%
+			height: 100%;
+			border-radius: 10px;
 		}
 
 	}

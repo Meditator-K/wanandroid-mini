@@ -5,28 +5,30 @@
 			"navigationBarTitleText": "首页",
 			"enablePullDownRefresh": true
 		}
-	},{
+	}, {
 		"path": "pages/system/index",
 		"style": {
 			"navigationBarTitleText": "体系"
 		}
-	},{
+	}, {
 		"path": "pages/navigation/index",
 		"style": {
 			"navigationBarTitleText": "导航"
 		}
-	},{
+	}, {
 		"path": "pages/project/index",
 		"style": {
 			"navigationBarTitleText": "我的"
 		}
-	},{
+	}, {
 		"path": "pages/webview"
+	}, {
+		"path": "pages/search"
 	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarBackgroundColor": "#FFF",
 		"backgroundColor": "#FFFFFF"
 		// "navigationStyle": "custom"
 	},
