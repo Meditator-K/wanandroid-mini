@@ -23,7 +23,11 @@
 	}, {
 		"path": "pages/webview"
 	}, {
-		"path": "pages/search"
+		"path": "pages/search",
+		"style": {
+			"navigationBarTitleText": "搜索",
+			"enablePullDownRefresh": true
+		}
 	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
