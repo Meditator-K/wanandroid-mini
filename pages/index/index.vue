@@ -137,7 +137,9 @@
 		padding-top: 5px;
 		padding-bottom: 5px;
 		margin-bottom: 10px;
-
+		position: sticky;
+		top: 0;
+		z-index: 10;
 	}
 
 	.swiper-box {
