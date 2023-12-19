@@ -11,15 +11,23 @@
 			</uni-col>
 
 		</uni-row>
-		
+
 		<uni-transition mode-class="fade" :show="showMenu">
 			<view class="pop-container">
-				<view v-for="(item,index) in content" :key="index" class="flex-item" @click="clickItem(item.name)">
+				<view v-for="(item,index) in content" :key="index" class="flex-item" @click="clickItem(item)">
 					{{item.name}}
 				</view>
 			</view>
 		</uni-transition>
 
+		<uni-grid :column="2" :highlight="true" @change="change">
+			<uni-grid-item v-for="(item, index) in articles" :index="index" :key="index">
+				<view class="grid-item-box">
+					<image class="img" :src="item.envelopePic" mode="scaleToFill"></image>
+					<text class="text">{{item.title}}</text>
+				</view>
+			</uni-grid-item>
+		</uni-grid>
 	</view>
 </template>
 
@@ -39,7 +47,11 @@
 					with: '100%',
 					height: '150px',
 					top: '30px',
-				}
+				},
+				pageNo: 0,
+				loadStatus: 'more',
+				articles: [],
+				projectId: 0
 			}
 		},
 		created() {
@@ -55,6 +67,8 @@
 						this.titles.push(childItems)
 					}
 					console.log(this.titles)
+					this.projectId = items[0].id
+					this.getProjectList()
 				}).catch(error => {
 					uni.showToast({
 						title: error,
@@ -88,7 +102,36 @@
 					return 'down';
 				}
 			},
-			clickItem(name) {
+			clickItem(item) {
+				this.showMenu = false
+				this.projectId = items.id
+				this.getProjectList()
+			},
+			getProjectList() {
+				get(`/project/list/${this.pageNo}/json?cid=${this.projectId}`).then(res => {
+					uni.stopPullDownRefresh()
+					const newItems = res.data.datas
+					if (newItems.length === 0) {
+						this.loadStatus = 'no-more'
+					} else {
+						if (this.pageNo === 0) {
+							this.articles = newItems
+						} else {
+							this.articles.push(...newItems)
+						}
+						this.loadStatus = 'more'
+					}
+				}).catch(error => {
+					if (this.pageNo !== 0) {
+						this.pageNo--
+					}
+					uni.showToast({
+						title: error,
+						duration: 2000
+					})
+				})
+			},
+			change() {
 
 			}
 		}
@@ -135,5 +178,25 @@
 		background-color: #f2f2f2;
 		border-radius: 5px;
 		font-size: 12px;
+	}
+
+	.grid-item-box {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 15px 0;
+	}
+
+	.img {
+		margin: 5px;
+		border: 1px solid #ccc;
+		
+	}
+
+	.text {
+		padding: 15px;
+		text-align: center;
 	}
 </style>
