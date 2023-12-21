@@ -1,16 +1,18 @@
 <template>
 	<view class="container">
 
-		<uni-row>
-			<uni-col :span="6" v-for="(items,index) in 4" :key="index">
-				<view class="select-container" @click="clickMenu(index)">
-					<text class="title-text">{{getTitle(index)}}</text>
-					<uni-icons :type="getArrowType(index)" color="#999" size="18"></uni-icons>
-				</view>
-
-			</uni-col>
-
-		</uni-row>
+		<view class="title-row">
+			<uni-row >
+				<uni-col :span="6" v-for="(items,index) in 4" :key="index">
+					<view class="select-container" @click="clickMenu(index)">
+						<text class="title-text">{{getTitle(index)}}</text>
+						<uni-icons :type="getArrowType(index)" color="#999" size="18"></uni-icons>
+					</view>
+			
+				</uni-col>
+			
+			</uni-row>
+		</view>
 
 		<uni-transition mode-class="fade" :show="showMenu">
 			<view class="pop-container">
@@ -20,7 +22,7 @@
 			</view>
 		</uni-transition>
 
-		<uni-grid :column="2" :highlight="true" @change="change">
+		<uni-grid :column="2" @change="change" :showBorder="false">
 			<uni-grid-item v-for="(item, index) in articles" :index="index" :key="index">
 				<view class="grid-item-box">
 					<image class="img" :src="item.envelopePic" mode="scaleToFill"></image>
@@ -145,6 +147,13 @@
 		width: 100%;
 		flex-direction: column;
 	}
+	
+	.title-row{
+		background-color: #fff;
+		position: sticky;
+		top: 0;
+		z-index: 10;
+	}
 
 	.select-container {
 		width: 100%;
@@ -184,19 +193,25 @@
 		flex: 1;
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		padding: 15px 0;
+		align-items: flex-start;
+		justify-content: flex-start;
+		padding: 5px;
 	}
 
 	.img {
 		margin: 5px;
-		border: 1px solid #ccc;
-		
+		border-radius: 5px;
+		width: 90%;
+		height: 100%;
 	}
 
 	.text {
-		padding: 15px;
+		width: 100%;
+		padding: 5px;
+		font-size: 12px;
 		text-align: center;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
 	}
 </style>
