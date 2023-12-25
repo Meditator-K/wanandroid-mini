@@ -14,7 +14,7 @@
 				<template v-slot:body>
 					<view class="expand-container"> 
 						<view class="custom-body">
-							<text>{{item.title.replace("<em class='highlight'>", '').replace("<\/em>",'')}}</text>
+							<view v-html="item.title"></view>
 							<uni-icons type="star-filled" color="#999" size="18"></uni-icons>
 						</view>
 						<view class="custom-body">
