@@ -18,7 +18,8 @@
 	}, {
 		"path": "pages/project/index",
 		"style": {
-			"navigationBarTitleText": "项目"
+			"navigationBarTitleText": "项目",
+			"enablePullDownRefresh": true
 		}
 	}, {
 		"path": "pages/webview"

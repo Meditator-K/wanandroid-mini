@@ -2,34 +2,39 @@
 	<view class="container">
 
 		<view class="title-row">
-			<uni-row >
+			<uni-row>
 				<uni-col :span="6" v-for="(items,index) in 4" :key="index">
 					<view class="select-container" @click="clickMenu(index)">
 						<text class="title-text">{{getTitle(index)}}</text>
 						<uni-icons :type="getArrowType(index)" color="#999" size="18"></uni-icons>
 					</view>
-			
+
 				</uni-col>
-			
+
 			</uni-row>
 		</view>
 
-		<uni-transition mode-class="fade" :show="showMenu">
-			<view class="pop-container">
-				<view v-for="(item,index) in content" :key="index" class="flex-item" @click="clickItem(item)">
-					{{item.name}}
-				</view>
-			</view>
-		</uni-transition>
+		<view>
 
-		<uni-grid :column="2" @change="change" :showBorder="false">
-			<uni-grid-item v-for="(item, index) in articles" :index="index" :key="index">
-				<view class="grid-item-box">
-					<image class="img" :src="item.envelopePic" mode="scaleToFill"></image>
-					<text class="text">{{item.title}}</text>
+			<uni-transition mode-class="fade" :show="showMenu" style="z-index: 10;position: absolute;margin-top: 30px;">
+				<view class="pop-container">
+					<view v-for="(item,index) in content" :key="index" class="flex-item" @click="clickItem(item)">
+						{{item.name}}
+					</view>
 				</view>
-			</uni-grid-item>
-		</uni-grid>
+			</uni-transition>
+
+			<uni-grid :column="2" @change="change" :showBorder="false"
+				style="z-index: 5;position: absolute;width: 100vw;margin-top: 30px;">
+				<uni-grid-item v-for="(item, index) in articles" :index="index" :key="index">
+					<view class="grid-item-box">
+						<image class="img" :src="item.envelopePic" mode="scaleToFill"></image>
+						<text class="text">{{item.title}}</text>
+					</view>
+				</uni-grid-item>
+			</uni-grid>
+			<uni-load-more :status="loadStatus" v-show="!showHot"></uni-load-more>
+		</view>
 	</view>
 </template>
 
@@ -59,6 +64,13 @@
 		created() {
 			this.getProjectData()
 		},
+		onReachBottom() {
+			this.loadMore()
+		},
+		onPullDownRefresh() {
+			this.pageNo = 0
+			this.getProjectData()
+		},
 		methods: {
 			getProjectData() {
 				get('/project/tree/json').then(res => {
@@ -79,8 +91,12 @@
 				})
 			},
 			clickMenu(index) {
+				if (this.showMenu && index != this.curIndex) {
+					this.showMenu = this.showMenu
+				}else{
+					this.showMenu = !this.showMenu
+				}
 				this.curIndex = index;
-				this.showMenu = !this.showMenu
 				this.content = this.titles[index]
 			},
 			getTitle(index) {
@@ -106,7 +122,8 @@
 			},
 			clickItem(item) {
 				this.showMenu = false
-				this.projectId = items.id
+				this.projectId = item.id
+				this.pageNo = 0
 				this.getProjectList()
 			},
 			getProjectList() {
@@ -133,8 +150,20 @@
 					})
 				})
 			},
-			change() {
-
+			loadMore() {
+				this.pageNo++
+				this.loadStatus = 'loading'
+				this.getProjectList()
+			},
+			change(e) {
+				let {
+					index
+				} = e.detail
+				uni.navigateTo({
+					url: '/pages/webview?title=' + encodeURIComponent(this.articles[index].title) + '&url=' +
+						encodeURIComponent(
+							this.articles[index].link)
+				})
 			}
 		}
 	}
@@ -145,14 +174,19 @@
 		font-size: 14px;
 		line-height: 24px;
 		width: 100%;
+		height: 100%;
+		display: flex;
 		flex-direction: column;
+		overflow-y: scroll;
 	}
-	
-	.title-row{
+
+	.title-row {
 		background-color: #fff;
-		position: sticky;
+		position: fixed;
 		top: 0;
-		z-index: 10;
+		height: 30px;
+		z-index: 15;
+		width: 100%;
 	}
 
 	.select-container {
@@ -191,6 +225,7 @@
 
 	.grid-item-box {
 		flex: 1;
+		width: 50vw;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
