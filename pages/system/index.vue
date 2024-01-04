@@ -57,7 +57,10 @@
 				})
 			},
 			clickItem(item) {
-
+				uni.navigateTo({
+					url: '/pages/system/detail?title=' + encodeURIComponent(item.name) + '&id=' + encodeURIComponent(
+						item.id)
+				})
 			},
 		}
 	}

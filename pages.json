@@ -29,6 +29,11 @@
 			"navigationBarTitleText": "搜索",
 			"enablePullDownRefresh": true
 		}
+	}, {
+		"path": "pages/system/detail",
+		"style": {
+			"enablePullDownRefresh": true
+		}
 	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
